@@ -1,6 +1,11 @@
 # Use Python 3.9 slim image
 FROM python:3.9-slim
 
+# Set environment variables for headless operation
+ENV MPLBACKEND=Agg
+ENV DISPLAY=:99
+ENV QT_QPA_PLATFORM=offscreen
+
 # Set working directory
 WORKDIR /app
 
@@ -8,9 +13,31 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
-    librdkit1 \
-    librdkit-dev \
-    python3-rdkit \
+    libxrender1 \
+    libxext6 \
+    libfontconfig1 \
+    libglib2.0-0 \
+    libsm6 \
+    libice6 \
+    libxinerama1 \
+    libxrandr2 \
+    libxcursor1 \
+    libxi6 \
+    libxss1 \
+    libgconf-2-4 \
+    libgtk-3-0 \
+    libxcomposite1 \
+    libasound2 \
+    libatk1.0-0 \
+    libdrm2 \
+    libxdamage1 \
+    libxfixes3 \
+    libatspi2.0-0 \
+    libgtk-3-0 \
+    libgdk-pixbuf2.0-0 \
+    libcairo-gobject2 \
+    libpango-1.0-0 \
+    libcairo2 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better caching

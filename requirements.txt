@@ -7,8 +7,8 @@ matplotlib>=3.7.0,<4.0.0
 seaborn>=0.12.0,<1.0.0
 plotly>=5.15.0,<6.0.0
 
-# RDKit and chemistry
-rdkit>=2024.3.0
+# RDKit and chemistry (using conda-forge build for better compatibility)
+rdkit-pypi>=2022.9.0
 
 # Machine Learning
 joblib>=1.3.0
