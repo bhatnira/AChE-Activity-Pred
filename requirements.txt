@@ -1,0 +1,39 @@
+# Core dependencies
+streamlit==1.37.0
+pandas==2.2.2
+numpy==1.24.3
+scikit-learn==1.5.0
+matplotlib==3.9.1
+seaborn==0.12.2
+plotly==5.17.0
+
+# RDKit and chemistry
+rdkit==2024.3.3
+
+# Machine Learning
+joblib==1.4.2
+xgboost==1.7.6
+tpot==0.12.2
+
+# Deep Learning
+torch==2.2.2
+tensorflow==2.15.0
+keras==2.15.0
+
+# Transformer models
+simpletransformers==0.70.1
+transformers==4.36.0
+
+# Additional utilities
+openpyxl==3.1.5
+scipy==1.14.0
+lime==0.2.0.1
+
+# Streamlit components
+streamlit-ketcher==0.0.1
+
+# Optional dependencies for enhanced functionality
+deepchem==2.8.0
+pymatgen==2023.10.11
+pytorch-lightning==2.2.1
+pytorch-ignite==0.5.1              

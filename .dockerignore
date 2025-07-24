@@ -1,0 +1,61 @@
+# Git files
+.git
+.gitignore
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+venv
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.coverage.*
+.cache
+.pytest_cache
+nosetests.xml
+coverage.xml
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+
+# Documentation (keep README.md)
+*.md
+!README.md
+
+# Unused Dockerfiles
+Dockerfile.chemberta
+Dockerfile.prod
+
+# Test files
+test_*
+*_test.py
+
+# Large model files (if any)
+*.bin
+*.pt
+*.h5
+*.hdf5

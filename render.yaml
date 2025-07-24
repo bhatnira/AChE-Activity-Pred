@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: molecular-prediction-suite
+    plan: starter
+    env: docker
+    dockerfilePath: ./Dockerfile.launcher
+    region: oregon
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: STREAMLIT_SERVER_PORT
+        value: 8501
+      - key: STREAMLIT_SERVER_ADDRESS
+        value: 0.0.0.0
+      - key: STREAMLIT_SERVER_HEADLESS
+        value: true
+      - key: STREAMLIT_BROWSER_GATHER_USAGE_STATS
+        value: false
+    disk:
+      name: data
+      mountPath: /app/data
+      sizeGB: 1
