@@ -3,7 +3,7 @@ services:
     name: molecular-prediction-suite
     plan: starter
     env: docker
-    dockerfilePath: ./Dockerfile.simple
+    dockerfilePath: ./Dockerfile
     region: oregon
     healthCheckPath: /_stcore/health
     buildCommand: echo "Building launcher app..."
