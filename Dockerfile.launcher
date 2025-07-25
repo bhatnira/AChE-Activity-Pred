@@ -18,8 +18,13 @@ RUN apt-get update && apt-get install -y \
     libfontconfig1 \
     && rm -rf /var/lib/apt/lists/*
 
+# Create conda environment with Python 3.10
+RUN conda create -n myenv python=3.10 -y && \
+    echo "source activate myenv" > ~/.bashrc
+ENV PATH /opt/conda/envs/myenv/bin:$PATH
+
 # Install RDKit and other conda packages first
-RUN conda install -c conda-forge -y \
+RUN conda install -n myenv -c conda-forge -y \
     rdkit \
     numpy \
     pandas \
