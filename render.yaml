@@ -3,9 +3,10 @@ services:
     name: molecular-prediction-suite
     plan: starter
     env: docker
-    dockerfilePath: ./Dockerfile.launcher
+    dockerfilePath: ./Dockerfile.simple
     region: oregon
     healthCheckPath: /_stcore/health
+    buildCommand: echo "Building launcher app..."
     envVars:
       - key: STREAMLIT_SERVER_PORT
         value: 8501
