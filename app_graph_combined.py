@@ -1,16 +1,45 @@
 import streamlit as st
 import os
 from rdkit import Chem
-from rdkit.Chem import Draw
-import deepchem as dc
 import pandas as pd
 import numpy as np
-from rdkit.Chem.Draw import SimilarityMaps
-from streamlit_ketcher import st_ketcher
-import tensorflow as tf
 import streamlit.components.v1 as components
 
-tf.random.set_seed(42)
+# Handle optional imports for headless environments
+try:
+    from rdkit.Chem import Draw
+    from rdkit.Chem.Draw import SimilarityMaps
+    RDKIT_DRAW_AVAILABLE = True
+except ImportError:
+    RDKIT_DRAW_AVAILABLE = False
+    # Create dummy classes
+    class Draw:
+        @staticmethod
+        def MolToImage(*args, **kwargs):
+            return None
+    class SimilarityMaps:
+        @staticmethod
+        def GetSimilarityMapFromWeights(*args, **kwargs):
+            return None
+
+try:
+    import deepchem as dc
+    DEEPCHEM_AVAILABLE = True
+except ImportError:
+    DEEPCHEM_AVAILABLE = False
+
+try:
+    from streamlit_ketcher import st_ketcher
+    KETCHER_AVAILABLE = True
+except ImportError:
+    KETCHER_AVAILABLE = False
+
+try:
+    import tensorflow as tf
+    tf.random.set_seed(42)
+    TENSORFLOW_AVAILABLE = True
+except ImportError:
+    TENSORFLOW_AVAILABLE = False
 
 # Set page config as the very first command
 st.set_page_config(

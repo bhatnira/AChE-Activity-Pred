@@ -1,13 +1,35 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import deepchem as dc
 from rdkit import Chem
-from rdkit.Chem import Draw
-from streamlit_ketcher import st_ketcher
 import joblib
 from lime import lime_tabular
 import streamlit.components.v1 as components
+
+# Handle optional imports for headless environments
+try:
+    import deepchem as dc
+    DEEPCHEM_AVAILABLE = True
+except ImportError:
+    DEEPCHEM_AVAILABLE = False
+    st.warning("DeepChem not available. Some fingerprint methods may be limited.")
+
+try:
+    from rdkit.Chem import Draw
+    RDKIT_DRAW_AVAILABLE = True
+except ImportError:
+    RDKIT_DRAW_AVAILABLE = False
+    # Create a dummy Draw class
+    class Draw:
+        @staticmethod
+        def MolToImage(*args, **kwargs):
+            return None
+
+try:
+    from streamlit_ketcher import st_ketcher
+    KETCHER_AVAILABLE = True
+except ImportError:
+    KETCHER_AVAILABLE = False
 import tempfile
 import os
 

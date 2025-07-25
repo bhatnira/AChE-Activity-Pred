@@ -1,13 +1,26 @@
 import streamlit as st
 import pandas as pd
 from rdkit import Chem
-from rdkit.Chem import Descriptors, Draw
+from rdkit.Chem import Descriptors
 import traceback
 import joblib
 import numpy as np
 import os
 from lime import lime_tabular
 import streamlit.components.v1 as components
+
+# Handle RDKit drawing imports for headless environments
+try:
+    from rdkit.Chem import Draw
+    RDKIT_DRAW_AVAILABLE = True
+except ImportError as e:
+    st.warning("RDKit drawing functionality not available in this environment. Molecular visualizations will be disabled.")
+    RDKIT_DRAW_AVAILABLE = False
+    # Create a dummy Draw class
+    class Draw:
+        @staticmethod
+        def MolToImage(*args, **kwargs):
+            return None
 from streamlit_ketcher import st_ketcher
 
 # Set page config as the very first command
@@ -155,8 +168,11 @@ def handle_drawing_input(explainer, selected_descriptors):
                 
                 with col1:
                     st.markdown("**🧪 Structure**")
-                    mol_img = Draw.MolToImage(mol, size=(180, 150), kekulize=True, wedgeBonds=True)
-                    st.image(mol_img, use_column_width=True)
+                    if RDKIT_DRAW_AVAILABLE:
+                        mol_img = Draw.MolToImage(mol, size=(180, 150), kekulize=True, wedgeBonds=True)
+                        st.image(mol_img, use_column_width=True)
+                    else:
+                        st.info("Molecular visualization not available in this environment")
                     st.code(smile_code, language="text")
                 
                 with col2:
@@ -252,8 +268,11 @@ def handle_smiles_input(explainer, selected_descriptors):
             
             with col1:
                 st.markdown("**🧪 Structure**")
-                mol_img = Draw.MolToImage(mol, size=(180, 150), kekulize=True, wedgeBonds=True)
-                st.image(mol_img, use_column_width=True)
+                if RDKIT_DRAW_AVAILABLE:
+                    mol_img = Draw.MolToImage(mol, size=(180, 150), kekulize=True, wedgeBonds=True)
+                    st.image(mol_img, use_column_width=True)
+                else:
+                    st.info("Molecular visualization not available in this environment")
                 st.code(single_input, language="text")
             
             with col2:
@@ -352,7 +371,10 @@ def excel_file_prediction(file, smiles_column, selected_descriptors, explainer):
                     col1, col2 = st.columns([1, 2])
                     
                     with col1:
-                        st.image(Draw.MolToImage(mol, size=(120, 100), kekulize=True, wedgeBonds=True), use_column_width=True)
+                        if RDKIT_DRAW_AVAILABLE:
+                            st.image(Draw.MolToImage(mol, size=(120, 100), kekulize=True, wedgeBonds=True), use_column_width=True)
+                        else:
+                            st.info("Molecular visualization not available")
                         st.code(smiles, language="text")
                     
                     with col2:
@@ -409,7 +431,10 @@ def sdf_file_prediction(file, selected_descriptors, explainer):
                         col1, col2 = st.columns([1, 2])
                         
                         with col1:
-                            st.image(Draw.MolToImage(mol, size=(120, 100), kekulize=True, wedgeBonds=True), use_column_width=True)
+                            if RDKIT_DRAW_AVAILABLE:
+                                st.image(Draw.MolToImage(mol, size=(120, 100), kekulize=True, wedgeBonds=True), use_column_width=True)
+                            else:
+                                st.info("Molecular visualization not available")
                             st.code(smiles, language="text")
                         
                         with col2:
