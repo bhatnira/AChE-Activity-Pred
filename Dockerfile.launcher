@@ -1,5 +1,5 @@
-# Use Python 3.9 slim image
-FROM python:3.9-slim
+# Use miniconda base image for better RDKit support
+FROM continuumio/miniconda3:latest
 
 # Set environment variables for headless operation
 ENV MPLBACKEND=Agg
@@ -9,41 +9,29 @@ ENV QT_QPA_PLATFORM=offscreen
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Update conda and install system dependencies
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
     libxrender1 \
     libxext6 \
     libfontconfig1 \
-    libglib2.0-0 \
-    libsm6 \
-    libice6 \
-    libxinerama1 \
-    libxrandr2 \
-    libxcursor1 \
-    libxi6 \
-    libxss1 \
-    libgconf-2-4 \
-    libgtk-3-0 \
-    libxcomposite1 \
-    libasound2 \
-    libatk1.0-0 \
-    libdrm2 \
-    libxdamage1 \
-    libxfixes3 \
-    libatspi2.0-0 \
-    libgtk-3-0 \
-    libgdk-pixbuf2.0-0 \
-    libcairo-gobject2 \
-    libpango-1.0-0 \
-    libcairo2 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for better caching
-COPY requirements.txt .
+# Install RDKit and other conda packages first
+RUN conda install -c conda-forge -y \
+    rdkit \
+    numpy \
+    pandas \
+    scikit-learn \
+    matplotlib \
+    seaborn \
+    && conda clean -afy
 
-# Install Python dependencies
+# Copy requirements first for better caching
+COPY requirements_conda.txt ./requirements.txt
+
+# Install remaining packages via pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy application files
